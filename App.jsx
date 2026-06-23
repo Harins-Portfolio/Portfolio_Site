@@ -1,40 +1,48 @@
-import React from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
-import Sidebar from './Sidebar';
-import StickyBookingFooter from './StickyBookingFooter'; // Corrected path
-import Dashboard from './Dashboard';
-import MySolutions from './MySolutions';
-import CaseStudies from './CaseStudies';
-import About from './About';
-import Contact from './Contact';
-import { useGlobalState } from './GlobalState';
+import React, { useCallback } from 'react';
+import Navigation from './components/Navigation';
+import HeroSection from './sections/HeroSection';
+import HowItWorks from './sections/HowItWorks';
+import ProjectForm from './sections/ProjectForm';
+import PortfolioProof from './sections/PortfolioProof';
+import ConsultingSection from './sections/ConsultingSection';
+import FAQSection from './sections/FAQSection';
+import FinalCTA from './sections/FinalCTA';
 
 function App() {
-  const { setCurrentPage } = useGlobalState();
-  const location = useLocation();
-
-  // Update global state based on current route
-  React.useEffect(() => {
-    const path = location.pathname.substring(1); // Remove leading slash
-    const pageName = path === '' ? 'Dashboard' : path.split('/')[0].replace('-', ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-    setCurrentPage(pageName);
-  }, [location.pathname, setCurrentPage]);
+  const scrollToForm = useCallback(() => {
+    const el = document.getElementById('request');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }, []);
 
   return (
-    <div className="flex bg-[#F8FAFC] min-h-screen">
-      <Sidebar />
-      <div className="ml-[280px] p-12 w-[calc(100%-280px)] min-h-screen">
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/my-solutions/*" element={<MySolutions />} />
-          <Route path="/case-studies" element={<CaseStudies />} />
-          <Route path="/about-me" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          {/* Fallback for unknown routes */}
-          <Route path="*" element={<Dashboard />} />
-        </Routes>
-      </div>
-      <StickyBookingFooter />
+    <div className="font-['Inter',_system-ui,_sans-serif]">
+      <Navigation />
+      <HeroSection onStartRequest={scrollToForm} />
+      <HowItWorks />
+      <ProjectForm />
+      <PortfolioProof />
+      <ConsultingSection />
+      <FAQSection />
+      <FinalCTA onStartRequest={scrollToForm} />
+
+      <footer className="bg-[#0F172A] py-8">
+        <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-sm text-gray-500">
+            &copy; {new Date().getFullYear()} Nikhil Harins. All rights reserved.
+          </p>
+          <div className="flex items-center gap-4">
+            <a href="https://linkedin.com/in/nikhilharins" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-white transition-colors">
+              <i className="ri-linkedin-fill text-lg" />
+            </a>
+            <a href="https://github.com/Harins-Portfolio" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-white transition-colors">
+              <i className="ri-github-fill text-lg" />
+            </a>
+            <a href="mailto:nikhil.harins@example.com" className="text-gray-500 hover:text-white transition-colors">
+              <i className="ri-mail-fill text-lg" />
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

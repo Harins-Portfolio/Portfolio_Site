@@ -111,7 +111,7 @@ const OnboardingFlow = ({ onPortalOpen }) => {
   };
 
   return (
-    <div className="onboarding-flow">
+    <div id="start" className="onboarding-flow">
       {renderStep()}
     </div>
   );

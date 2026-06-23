@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 
 const navItems = [
   { label: 'How It Works', href: '#how-it-works' },
-  { label: 'Request', href: '#request' },
+  { label: 'AI Scoping', href: '#ai-scoping' },
+  { label: 'Project Builder', href: '#project-builder' },
   { label: 'Portfolio', href: '#portfolio' },
-  { label: 'Consulting', href: '#consulting' },
   { label: 'FAQ', href: '#faq' },
 ];
 
@@ -39,7 +39,7 @@ const Navigation = () => {
             <button
               key={item.href}
               onClick={() => handleClick(item.href)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                 isScrolled ? 'text-gray-600 hover:text-[#0F172A] hover:bg-gray-100' : 'text-gray-300 hover:text-white hover:bg-white/10'
               }`}
             >
@@ -47,10 +47,10 @@ const Navigation = () => {
             </button>
           ))}
           <button
-            onClick={() => handleClick('#request')}
+            onClick={() => handleClick('#project-builder')}
             className="ml-2 bg-[#0F172A] text-white text-sm font-bold px-5 py-2 rounded-lg hover:bg-[#1E293B] transition-colors"
           >
-            Start Request
+            Start Project
           </button>
         </div>
 
@@ -77,10 +77,10 @@ const Navigation = () => {
               </button>
             ))}
             <button
-              onClick={() => handleClick('#request')}
+              onClick={() => handleClick('#project-builder')}
               className="w-full bg-[#0F172A] text-white text-sm font-bold px-5 py-3 rounded-lg hover:bg-[#1E293B] transition-colors mt-2"
             >
-              Start Your Request
+              Start Your Project
             </button>
           </div>
         </div>

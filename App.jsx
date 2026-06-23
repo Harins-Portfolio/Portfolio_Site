@@ -2,28 +2,30 @@ import React, { useCallback } from 'react';
 import Navigation from './components/Navigation';
 import HeroSection from './sections/HeroSection';
 import HowItWorks from './sections/HowItWorks';
-import ProjectForm from './sections/ProjectForm';
+import AIScopingAssistantSection from './sections/AIScopingAssistantSection';
+import ProjectBuilder from './sections/ProjectBuilder';
 import PortfolioProof from './sections/PortfolioProof';
 import ConsultingSection from './sections/ConsultingSection';
 import FAQSection from './sections/FAQSection';
 import FinalCTA from './sections/FinalCTA';
 
 function App() {
-  const scrollToForm = useCallback(() => {
-    const el = document.getElementById('request');
+  const scrollToSection = useCallback((id) => {
+    const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   }, []);
 
   return (
-    <div className="font-['Inter',_system-ui,_sans-serif]">
+    <div className="font-sans">
       <Navigation />
-      <HeroSection onStartRequest={scrollToForm} />
+      <HeroSection onStartJourney={() => scrollToSection('how-it-works')} />
       <HowItWorks />
-      <ProjectForm />
+      <AIScopingAssistantSection />
+      <ProjectBuilder />
       <PortfolioProof />
       <ConsultingSection />
       <FAQSection />
-      <FinalCTA onStartRequest={scrollToForm} />
+      <FinalCTA />
 
       <footer className="bg-[#0F172A] py-8">
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">

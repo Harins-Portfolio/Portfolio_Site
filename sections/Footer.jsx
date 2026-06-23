@@ -1,4 +1,4 @@
-const Footer = () => {
+const Footer = ({ onPortalLogin }) => {
   return (
     <footer className="bg-gray-900 border-t border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -34,6 +34,15 @@ const Footer = () => {
                   </a>
                 </li>
               ))}
+              <li>
+                <button
+                  onClick={onPortalLogin}
+                  className="text-sm text-gray-400 hover:text-white transition-colors flex items-center gap-2"
+                >
+                  <i className="ri-user-3-line" />
+                  Client Portal
+                </button>
+              </li>
             </ul>
           </div>
 
@@ -53,11 +62,22 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="mailto:nikhil.harins@example.com"
+                  href="https://github.com/Harins-Portfolio/Portfolio_Site"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
+                >
+                  <i className="ri-github-fill" />
+                  GitHub
+                </a>
+              </li>
+              <li>
+                <a
+                  href="mailto:nikhilharins10@gmail.com"
                   className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
                 >
                   <i className="ri-mail-fill" />
-                  nikhil.harins@example.com
+                  nikhilharins10@gmail.com
                 </a>
               </li>
             </ul>

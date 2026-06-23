@@ -1,10 +1,18 @@
 import { useState } from 'react';
 
+const hashPassword = async (password) => {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password);
+  const hash = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+};
+
 const Step6 = ({ onNext, onBack, collected, submitting }) => {
   const [clientInfo, setClientInfo] = useState({
     name: '',
     email: '',
     company: '',
+    password: '',
   });
   const [errors, setErrors] = useState({});
 
@@ -13,13 +21,16 @@ const Step6 = ({ onNext, onBack, collected, submitting }) => {
     if (!clientInfo.name.trim()) errs.name = 'Name is required';
     if (!clientInfo.email.trim()) errs.email = 'Email is required';
     else if (!/\S+@\S+\.\S+/.test(clientInfo.email)) errs.email = 'Invalid email';
+    if (!clientInfo.password.trim()) errs.password = 'Password is required';
+    else if (clientInfo.password.length < 4) errs.password = 'Password must be at least 4 characters';
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (validate()) {
-      onNext({ ...clientInfo });
+      const pwdHash = await hashPassword(clientInfo.password);
+      onNext({ ...clientInfo, password_hash: pwdHash });
     }
   };
 
@@ -44,7 +55,7 @@ const Step6 = ({ onNext, onBack, collected, submitting }) => {
           <div className="text-center mb-10">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-100/80 rounded-full text-accent-700 text-sm font-medium mb-4 border border-accent-200/50">
               <i className="ri-checkbox-circle-line" />
-              Step 6 of 6 — Final Review
+              Final Review
             </div>
             <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
               Review & Submit
@@ -115,6 +126,37 @@ const Step6 = ({ onNext, onBack, collected, submitting }) => {
                     className="input-field"
                   />
                 </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    Portal Password <span className="text-red-400">*</span>
+                  </label>
+                  <input
+                    type="password"
+                    value={clientInfo.password}
+                    onChange={(e) => setClientInfo(prev => ({ ...prev, password: e.target.value }))}
+                    placeholder="Create a password to access your portal"
+                    className={`input-field ${errors.password ? 'border-red-300 focus:border-red-400 focus:ring-red-500/20' : ''}`}
+                  />
+                  {errors.password && <p className="text-xs text-red-500 mt-1">{errors.password}</p>}
+                  <p className="text-xs text-gray-400 mt-1">
+                    You'll need this password to log into the Client Portal and track your project.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
+            <div className="flex items-start gap-3">
+              <i className="ri-information-line text-amber-500 mt-0.5" />
+              <div>
+                <p className="text-sm font-medium text-amber-800">Project Review Notice</p>
+                <p className="text-xs text-amber-700 mt-0.5">
+                  After submission, I will review your project details and either accept or decline
+                  based on whether I believe I can deliver the results you need. If accepted, you'll
+                  receive a fixed-price quote before work begins. You can track all status updates
+                  in the Client Portal using the email and password you provide above.
+                </p>
               </div>
             </div>
           </div>

@@ -51,6 +51,7 @@ const OnboardingFlow = ({ onPortalOpen, active }) => {
         client_name: payload.name || '',
         client_email: payload.email || '',
         company: payload.company || '',
+        password_hash: payload.password_hash || null,
         file_count: payload.files?.length || 0,
       });
       onPortalOpen(project.id);

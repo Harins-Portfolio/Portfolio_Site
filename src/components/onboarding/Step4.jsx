@@ -23,10 +23,7 @@ const Step4 = ({ onNext, onBack, initialBudget }) => {
       <div className="flex-1 flex flex-col items-center justify-center px-4 py-16">
         <div className="max-w-2xl w-full animate-fadeInUp">
           <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand-100/80 rounded-full text-brand-700 text-sm font-medium mb-4 border border-brand-200/50">
-              <span className="w-2 h-2 rounded-full bg-brand-500 animate-pulse" />
-              Step 4 of 6
-            </div>
+
             <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
               Budget & Timeline
             </h1>

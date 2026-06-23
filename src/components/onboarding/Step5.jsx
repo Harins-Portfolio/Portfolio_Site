@@ -32,10 +32,7 @@ const Step5 = ({ onNext, onBack, initialBooking }) => {
       <div className="flex-1 flex flex-col items-center justify-center px-4 py-16">
         <div className="max-w-2xl w-full animate-fadeInUp">
           <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand-100/80 rounded-full text-brand-700 text-sm font-medium mb-4 border border-brand-200/50">
-              <span className="w-2 h-2 rounded-full bg-brand-500 animate-pulse" />
-              Step 5 of 6
-            </div>
+
             <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
               Schedule a Call
             </h1>
@@ -98,6 +95,21 @@ const Step5 = ({ onNext, onBack, initialBooking }) => {
               </div>
             </div>
           )}
+
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
+            <div className="flex items-start gap-3">
+              <i className="ri-information-line text-amber-500 mt-0.5" />
+              <div>
+                <p className="text-sm font-medium text-amber-800">Project Review Notice</p>
+                <p className="text-xs text-amber-700 mt-0.5">
+                  After submission, I will review your project details and either accept or decline
+                  based on whether I believe I can deliver the results you need. If accepted, you'll
+                  receive a fixed-price quote before work begins. You can track all status updates
+                  in the Client Portal.
+                </p>
+              </div>
+            </div>
+          </div>
 
           <div className="flex items-center justify-between">
             <button onClick={onBack} className="btn-ghost">

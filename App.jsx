@@ -16,12 +16,14 @@ const MODE = {
   LANDING: 'landing',
   ONBOARDING: 'onboarding',
   PORTAL: 'portal',
+  PORTAL_LOGIN: 'portal_login',
   ADMIN: 'admin',
 };
 
 function App() {
   const [mode, setMode] = useState(MODE.LANDING);
   const [projectId, setProjectId] = useState(null);
+  const [portalEmail, setPortalEmail] = useState(null);
 
   const handleStartProject = useCallback(() => {
     setMode(MODE.ONBOARDING);
@@ -33,6 +35,16 @@ function App() {
     setMode(MODE.PORTAL);
   }, []);
 
+  const handlePortalLogin = useCallback(() => {
+    setMode(MODE.PORTAL_LOGIN);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
+  const handlePortalAuthenticated = useCallback((email) => {
+    setPortalEmail(email);
+    setMode(MODE.PORTAL);
+  }, []);
+
   const handleAdminToggle = useCallback(() => {
     setMode(prev => prev === MODE.ADMIN ? MODE.LANDING : MODE.ADMIN);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -41,14 +53,19 @@ function App() {
   const handleBackToLanding = useCallback(() => {
     setMode(MODE.LANDING);
     setProjectId(null);
+    setPortalEmail(null);
   }, []);
 
   if (mode === MODE.ADMIN) {
     return <AdminDashboard onLogout={handleAdminToggle} />;
   }
 
+  if (mode === MODE.PORTAL_LOGIN) {
+    return <ClientPortal onAuthenticated={handlePortalAuthenticated} onLogout={handleBackToLanding} />;
+  }
+
   if (mode === MODE.PORTAL) {
-    return <ClientPortal projectId={projectId} onLogout={handleBackToLanding} />;
+    return <ClientPortal projectId={projectId} portalEmail={portalEmail} onLogout={handleBackToLanding} />;
   }
 
   if (mode === MODE.ONBOARDING) {
@@ -76,7 +93,7 @@ function App() {
       <ConsultingSection onStartProject={handleStartProject} />
       <FAQSection />
       <FinalCTA onStartProject={handleStartProject} />
-      <Footer />
+      <Footer onPortalLogin={handlePortalLogin} />
 
       <button
         onClick={handleAdminToggle}

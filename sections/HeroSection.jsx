@@ -66,13 +66,19 @@ const HeroSection = ({ onStartProject }) => {
           <div className="hidden md:flex justify-center animate-fadeInRight">
             <div className="relative">
               <div className="w-72 h-72 lg:w-96 lg:h-96 rounded-2xl gradient-bg p-1 shadow-2xl shadow-brand-500/20">
-                <div className="w-full h-full rounded-2xl bg-white overflow-hidden flex items-center justify-center">
-                  <div className="text-center p-8">
-                    <div className="w-24 h-24 lg:w-32 lg:h-32 rounded-full gradient-bg mx-auto mb-4 flex items-center justify-center text-white text-4xl lg:text-5xl font-bold shadow-lg">
-                      NH
+                <div className="w-full h-full rounded-2xl bg-white overflow-hidden flex flex-col items-center justify-center">
+                  <div className="flex-1 flex items-center justify-center">
+                    <div className="w-48 h-48 lg:w-56 lg:h-56 rounded-full overflow-hidden border-4 border-white shadow-xl">
+                      <img
+                        src="./Profile.pg.jpg"
+                        alt="Nikhil Harins"
+                        className="w-full h-full object-cover"
+                      />
                     </div>
-                    <h3 className="text-xl font-bold text-gray-900">Nikhil Harins</h3>
-                    <p className="text-gray-500">Data Analytics Consultant</p>
+                  </div>
+                  <div className="text-center pb-4 lg:pb-6">
+                    <h3 className="text-3xl font-bold text-gray-900">Nikhil Harins</h3>
+                    <p className="text-gray-500 text-lg">Data Analytics Consultant</p>
                   </div>
                 </div>
               </div>

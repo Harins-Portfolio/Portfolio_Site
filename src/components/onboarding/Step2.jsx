@@ -172,7 +172,7 @@ const Step2 = ({ onNext, onBack, initialSpec }) => {
           <div className="text-center mb-6">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-violet-100/80 rounded-full text-violet-700 text-sm font-medium mb-4 border border-violet-200/50">
               <i className="ri-sparkling-2-line" />
-              AI Assistant — Step 2 of 6
+              AI Assistant
             </div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
               Describe Your Problem

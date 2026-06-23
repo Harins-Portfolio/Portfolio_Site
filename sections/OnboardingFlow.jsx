@@ -57,7 +57,7 @@ const OnboardingFlow = ({ onPortalOpen, active }) => {
       onPortalOpen(project.id);
     } catch (err) {
       console.error('createProject error', err);
-      alert('There was an error submitting your request. Please try again.');
+      alert(err.message || 'There was an error submitting your request. Please try again.');
     } finally {
       setSubmitting(false);
     }

@@ -1,32 +1,20 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import Navigation from './components/Navigation';
-import HeroSection from './sections/HeroSection';
-import HowItWorks from './sections/HowItWorks';
-import AIScopingAssistantSection from './sections/AIScopingAssistantSection';
-import ProjectBuilder from './sections/ProjectBuilder';
+import StepFlow from './sections/StepFlow';
 import PortfolioProof from './sections/PortfolioProof';
 import ConsultingSection from './sections/ConsultingSection';
 import FAQSection from './sections/FAQSection';
 import FinalCTA from './sections/FinalCTA';
 
 function App() {
-  const scrollToSection = useCallback((id) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  }, []);
-
   return (
     <div className="font-sans">
       <Navigation />
-      <HeroSection onStartJourney={() => scrollToSection('how-it-works')} />
-      <HowItWorks />
-      <AIScopingAssistantSection />
-      <ProjectBuilder />
+      <StepFlow />
       <PortfolioProof />
       <ConsultingSection />
       <FAQSection />
       <FinalCTA />
-
       <footer className="bg-[#0F172A] py-8">
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-gray-500">

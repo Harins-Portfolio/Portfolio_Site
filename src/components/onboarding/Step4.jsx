@@ -1,108 +1,129 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-const questions = [
-  "What business problem are you solving?",
-  "What data sources do you have?",
-  "What outcome do you want?",
-  "Who will use the results?",
-  "What deliverable format do you need?",
-  "What deadline do you need?",
+const urgencyOptions = [
+  { value: 'low', label: 'No rush — within a month', icon: 'ri-calendar-line', color: 'text-green-500 bg-green-50 border-green-200' },
+  { value: 'medium', label: 'Standard — within 2 weeks', icon: 'ri-time-line', color: 'text-blue-500 bg-blue-50 border-blue-200' },
+  { value: 'high', label: 'Urgent — within a week', icon: 'ri-flashlight-line', color: 'text-orange-500 bg-orange-50 border-orange-200' },
+  { value: 'critical', label: 'ASAP — as fast as possible', icon: 'ri-alarm-line', color: 'text-red-500 bg-red-50 border-red-200' },
 ];
 
-const Step4 = ({ onNext }) => {
-  const [showAssistant, setShowAssistant] = useState(false);
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState(new Array(questions.length).fill(''));
-  const [specification, setSpecification] = useState(null);
+const Step4 = ({ onNext, onBack, initialBudget }) => {
+  const [budget, setBudget] = useState(initialBudget?.budget || '');
+  const [timeline, setTimeline] = useState(initialBudget?.timeline || '');
+  const [urgency, setUrgency] = useState(initialBudget?.urgency || '');
 
-  const handleAnswerChange = (e) => {
-    const newAnswers = [...answers];
-    newAnswers[currentQuestion] = e.target.value;
-    setAnswers(newAnswers);
+  const handleSubmit = () => {
+    onNext({ budget: Number(budget), timeline, urgency });
   };
 
-  const handleNextQuestion = () => {
-    if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
-    } else {
-      generateSpecification();
-    }
-  };
-
-  const generateSpecification = () => {
-    const spec = {
-      business_goal: answers[0],
-      data_sources: answers[1],
-      required_outputs: answers[2],
-      success_metrics: answers[3],
-      users: answers[4],
-      deadline: answers[5],
-      recommended_scope: "AI-generated scope will appear here.",
-    };
-    setSpecification(spec);
-  };
-
-  const handleAccept = () => {
-    onNext({ specification });
-  };
-
-  if (specification) {
-    return (
-      <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-        <h1 className="text-4xl font-bold mb-8">Generated Project Specification</h1>
-        <div className="w-1/2 bg-white p-8 rounded-lg shadow-lg">
-          {Object.entries(specification).map(([key, value]) => (
-            <div key={key} className="mb-4">
-              <h3 className="text-lg font-semibold capitalize">{key.replace('_', ' ')}</h3>
-              <p className="text-gray-700">{value}</p>
-            </div>
-          ))}
-        </div>
-        <div className="mt-8">
-          <button onClick={handleAccept} className="px-6 py-3 bg-green-600 text-white rounded-lg text-lg font-semibold hover:bg-green-700 transition-colors">
-            Accept Specification
-          </button>
-          <button onClick={() => setSpecification(null)} className="ml-4 px-6 py-3 bg-yellow-500 text-white rounded-lg text-lg font-semibold hover:bg-yellow-600 transition-colors">
-            Edit
-          </button>
-          <button onClick={generateSpecification} className="ml-4 px-6 py-3 bg-blue-600 text-white rounded-lg text-lg font-semibold hover:bg-blue-700 transition-colors">
-            Regenerate
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  if (showAssistant) {
-    return (
-      <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-        <h1 className="text-3xl font-bold mb-4">{questions[currentQuestion]}</h1>
-        <textarea
-          value={answers[currentQuestion]}
-          onChange={handleAnswerChange}
-          className="w-1/2 h-40 p-4 border border-gray-300 rounded-lg mb-8"
-          placeholder="Your answer..."
-        />
-        <button
-          onClick={handleNextQuestion}
-          disabled={!answers[currentQuestion]}
-          className="px-6 py-3 bg-blue-600 text-white rounded-lg text-lg font-semibold hover:bg-blue-700 transition-colors disabled:bg-gray-400"
-        >
-          {currentQuestion < questions.length - 1 ? "Next" : "Generate Specification"}
-        </button>
-      </div>
-    );
-  }
+  const isValid = budget >= 100 && timeline.trim();
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-      <h1 className="text-4xl font-bold mb-8">AI Scoping Engine</h1>
-      <button
-        onClick={() => setShowAssistant(true)}
-        className="px-6 py-3 bg-blue-600 text-white rounded-lg text-lg font-semibold hover:bg-blue-700 transition-colors"
-      >
-        ✨ Help me structure my request
-      </button>
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-white to-brand-50/30">
+      <div className="flex-1 flex flex-col items-center justify-center px-4 py-16">
+        <div className="max-w-2xl w-full animate-fadeInUp">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand-100/80 rounded-full text-brand-700 text-sm font-medium mb-4 border border-brand-200/50">
+              <span className="w-2 h-2 rounded-full bg-brand-500 animate-pulse" />
+              Step 4 of 6
+            </div>
+            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
+              Budget & Timeline
+            </h1>
+            <p className="text-lg text-gray-500">
+              Set your expectations. Projects generally start at <strong className="text-gray-700">&euro;100</strong>.
+            </p>
+          </div>
+
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-6">
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Your Budget (EUR)
+              </label>
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-semibold">€</span>
+                <input
+                  type="number"
+                  value={budget}
+                  onChange={(e) => setBudget(e.target.value)}
+                  placeholder="e.g., 500"
+                  min="100"
+                  className="input-field pl-8 text-lg font-semibold"
+                />
+              </div>
+              {budget && budget < 100 && (
+                <p className="text-xs text-orange-500 mt-1.5">
+                  <i className="ri-information-line mr-1" />
+                  Minimum project budget is €100
+                </p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Expected Timeline
+              </label>
+              <input
+                type="text"
+                value={timeline}
+                onChange={(e) => setTimeline(e.target.value)}
+                placeholder="e.g., 2 weeks, end of next month"
+                className="input-field"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-3">
+                Project Urgency
+              </label>
+              <div className="grid grid-cols-2 gap-3">
+                {urgencyOptions.map((option) => (
+                  <button
+                    key={option.value}
+                    onClick={() => setUrgency(option.value)}
+                    className={`p-4 rounded-xl border-2 text-left transition-all duration-200 ${
+                      urgency === option.value
+                        ? option.color + ' shadow-sm'
+                        : 'border-gray-100 hover:border-gray-200'
+                    }`}
+                  >
+                    <i className={`${option.icon} text-lg`} />
+                    <div className="text-sm font-medium text-gray-900 mt-1">{option.label}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-brand-50 rounded-xl p-4 border border-brand-100">
+              <div className="flex items-start gap-3">
+                <i className="ri-information-line text-brand-500 mt-0.5" />
+                <div>
+                  <p className="text-sm font-medium text-brand-800">Pricing Guidance</p>
+                  <p className="text-sm text-brand-600 mt-0.5">
+                    Most projects range from <strong>€100</strong> to <strong>€2,500+</strong> depending on complexity.
+                    You&apos;ll receive a fixed-price quote before any work begins.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between mt-8">
+            <button onClick={onBack} className="btn-ghost">
+              <i className="ri-arrow-left-line" />
+              Back
+            </button>
+            <button
+              onClick={handleSubmit}
+              disabled={!isValid}
+              className="btn-primary text-base px-8 py-3"
+            >
+              Continue
+              <i className="ri-arrow-right-line" />
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

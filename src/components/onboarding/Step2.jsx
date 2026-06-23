@@ -106,7 +106,7 @@ const Step2 = ({ onNext, onBack, initialSpec }) => {
 
   if (specGenerated && spec) {
     return (
-      <div className="min-h-screen flex flex-col bg-gradient-to-b from-white to-brand-50/30">
+      <div className="min-h-screen flex flex-col bg-gradient-to-b from-white to-brand-50/30 pt-28 md:pt-36">
         <div className="flex-1 flex flex-col items-center justify-center px-4 py-16">
           <div className="max-w-2xl w-full animate-fadeInUp">
             <div className="text-center mb-8">
